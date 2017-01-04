@@ -60,11 +60,23 @@ defmodule Countermeasures do
   defp alarm(msg, value, %{led_1: led_1, led_2: led_2, led_3: led_3, led_4: led_4} = state) do
     IO.puts msg
 
-    if value == 235
+    if value == 235 || value == 234 do
       Gpio.write(led_1, 1)
     end
 
-    if value < 235
+    if value == 233 || value == 232 do
+      Gpio.write(led_1, 1)
+      Gpio.write(led_2, 1)
+    end
+
+    if value == 231 || value == 230 do
+      Gpio.write(led_1, 1)
+      Gpio.write(led_2, 1)
+      Gpio.write(led_3, 1)
+    end
+
+    if value < 230 do
+      Gpio.write(led_1, 1)
       Gpio.write(led_2, 1)
       Gpio.write(led_3, 1)
       Gpio.write(led_4, 1)
