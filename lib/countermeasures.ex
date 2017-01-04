@@ -20,7 +20,7 @@ defmodule Countermeasures do
     {:ok, vibration} = Gpio.start_link(23, :input)
     {:ok, sensors} = I2c.start_link("i2c-1", 0x48)
 
-    spawn(fn -> loop(%{led_1: led_1, sensors: sensors, vibration: vibration}) end)
+    spawn(fn -> loop(%{led_1: led_1, led_2: led_2, led_3: led_3, led_4: led_4, sensors: sensors, vibration: vibration}) end)
 
     IO.puts "Intrusion Countermeasures On!"
 
