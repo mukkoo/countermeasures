@@ -5,6 +5,15 @@ defmodule Countermeasures do
     {:ok, led_1} = Gpio.start_link(18, :output)
     Gpio.write(led_1, 0)
 
+    {:ok, led_2} = Gpio.start_link(24, :output)
+    Gpio.write(led_2, 0)
+
+    {:ok, led_3} = Gpio.start_link(25, :output)
+    Gpio.write(led_3, 0)
+
+    {:ok, led_4} = Gpio.start_link(12, :output)
+    Gpio.write(led_4, 0)
+
     {:ok, laser} = Gpio.start_link(17, :output)
     Gpio.write(laser, 0)
 
@@ -18,7 +27,7 @@ defmodule Countermeasures do
     {:ok, self}
   end
 
-  def loop(%{led_1: led_1, sensors: sensors, vibration: vibration} = state) do
+  def loop(%{led_1: led_1, led_2: led_2, led_3: led_3, led_4: led_4, sensors: sensors, vibration: vibration} = state) do
     :timer.sleep(200)
 
     # value = read_sensor(sensors, 0)
@@ -42,12 +51,18 @@ defmodule Countermeasures do
     # end
 
     Gpio.write(led_1, 0)
+    Gpio.write(led_2, 0)
+    Gpio.write(led_3, 0)
+    Gpio.write(led_4, 0)
     loop(state)
   end
 
-  defp alarm(msg, %{led_1: led_1} = state) do
+  defp alarm(msg, %{led_1: led_1, led_2: led_2, led_3: led_3, led_4: led_4} = state) do
     IO.puts msg
     Gpio.write(led_1, 1)
+    Gpio.write(led_2, 1)
+    Gpio.write(led_3, 1)
+    Gpio.write(led_4, 1)
     loop(state)
   end
 
