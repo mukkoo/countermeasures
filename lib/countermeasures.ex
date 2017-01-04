@@ -37,7 +37,7 @@ defmodule Countermeasures do
 
     value = read_sensor(sensors, 1)
     if value < 236 do
-      alarm("Temperature triggered! (#{value})", state)
+      alarm("Temperature triggered! (#{value})", value, state)
     end
 
     # value = Gpio.read(vibration)
@@ -57,8 +57,10 @@ defmodule Countermeasures do
     loop(state)
   end
 
-  defp alarm(msg, %{led_1: led_1, led_2: led_2, led_3: led_3, led_4: led_4} = state) do
+  defp alarm(msg, value, %{led_1: led_1, led_2: led_2, led_3: led_3, led_4: led_4} = state) do
     IO.puts msg
+    IO.puts value
+
     Gpio.write(led_1, 1)
     Gpio.write(led_2, 1)
     Gpio.write(led_3, 1)
