@@ -21,25 +21,25 @@ defmodule Countermeasures do
   def loop(%{led_1: led_1, sensors: sensors, vibration: vibration} = state) do
     :timer.sleep(200)
 
-    value = read_sensor(sensors, 0)
-    if value > 50 do
-      alarm("Laser triggered! (#{value})", state)
-    end
+    # value = read_sensor(sensors, 0)
+    # if value > 50 do
+    #   alarm("Laser triggered! (#{value})", state)
+    # end
 
     value = read_sensor(sensors, 1)
-    if value < 110 do
+    if value < 236 do
       alarm("Temperature triggered! (#{value})", state)
     end
 
-    value = Gpio.read(vibration)
-    if value == 0 do
-      alarm("Vibration triggered! (#{value})", state)
-    end
+    # value = Gpio.read(vibration)
+    # if value == 0 do
+    #   alarm("Vibration triggered! (#{value})", state)
+    # end
 
-    value = read_sensor(sensors, 2)
-    if value < 110 do
-      alarm("Noise triggered! (#{value})", state)
-    end
+    # value = read_sensor(sensors, 2)
+    # if value < 110 do
+    #   alarm("Noise triggered! (#{value})", state)
+    # end
 
     Gpio.write(led_1, 0)
     loop(state)
