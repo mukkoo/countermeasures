@@ -2,8 +2,8 @@ defmodule Countermeasures do
   use Application
 
   def start(_, _) do
-    {:ok, buzzer} = Gpio.start_link(18, :output)
-    Gpio.write(buzzer, 1)
+    {:ok, led_1} = Gpio.start_link(18, :output)
+    Gpio.write(led_1, 0)
 
     {:ok, laser} = Gpio.start_link(17, :output)
     Gpio.write(laser, 0)
@@ -11,14 +11,14 @@ defmodule Countermeasures do
     {:ok, vibration} = Gpio.start_link(23, :input)
     {:ok, sensors} = I2c.start_link("i2c-1", 0x48)
 
-    spawn(fn -> loop(%{buzzer: buzzer, sensors: sensors, vibration: vibration}) end)
+    spawn(fn -> loop(%{led_1: led_1, sensors: sensors, vibration: vibration}) end)
 
     IO.puts "Intrusion Countermeasures On!"
 
     {:ok, self}
   end
 
-  def loop(%{buzzer: buzzer, sensors: sensors, vibration: vibration} = state) do
+  def loop(%{led_1: led_1, sensors: sensors, vibration: vibration} = state) do
     :timer.sleep(200)
 
     value = read_sensor(sensors, 0)
@@ -41,13 +41,13 @@ defmodule Countermeasures do
       alarm("Noise triggered! (#{value})", state)
     end
 
-    Gpio.write(buzzer, 1)
+    Gpio.write(led_1, 0)
     loop(state)
   end
 
-  defp alarm(msg, %{buzzer: buzzer} = state) do
+  defp alarm(msg, %{led_1: led_1} = state) do
     IO.puts msg
-    Gpio.write(buzzer, 0)
+    Gpio.write(led_1, 1)
     loop(state)
   end
 
