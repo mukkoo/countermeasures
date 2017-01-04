@@ -62,17 +62,23 @@ defmodule Countermeasures do
 
     if value == 235 || value == 234 do
       Gpio.write(led_1, 1)
+      Gpio.write(led_2, 0)
+      Gpio.write(led_3, 0)
+      Gpio.write(led_4, 0)
     end
 
     if value == 233 || value == 232 do
       Gpio.write(led_1, 1)
       Gpio.write(led_2, 1)
+      Gpio.write(led_3, 0)
+      Gpio.write(led_4, 0)
     end
 
     if value == 231 || value == 230 do
       Gpio.write(led_1, 1)
       Gpio.write(led_2, 1)
       Gpio.write(led_3, 1)
+      Gpio.write(led_4, 0)
     end
 
     if value < 230 do
